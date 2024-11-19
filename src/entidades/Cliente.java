@@ -3,18 +3,10 @@ package entidades;
 public class Cliente {
 
     // Atributos
-    private String nome;
     private String cpf;
+    private String nome;
 
     // Getters e Setters
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getCpf() {
         return cpf;
     }
@@ -23,8 +15,18 @@ public class Cliente {
         this.cpf = cpf;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    //TODO: Criar um método extra para a classe
+
     @Override
-    // toString
+    // Método toString
     public String toString() {
         return "Cliente{" +
                 "nome='" + nome + '\'' +

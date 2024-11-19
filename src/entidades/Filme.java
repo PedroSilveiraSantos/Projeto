@@ -3,34 +3,34 @@ package entidades;
 public class Filme {
 
     // Atributos
-    private Integer id;
-    private String nome;
+    private Integer idFilme;
+    private String titulo;
     private String genero;
     private String dataLancamento;
 
     // Construtor
-    public Filme(Integer id, String nome, String genero, String dataLancamento) {
-        this.id = id;
-        this.nome = nome;
+    public Filme(Integer idFilme, String titulo, String genero, String dataLancamento) {
+        this.idFilme = idFilme;
+        this.titulo = titulo;
         this.genero = genero;
         this.dataLancamento = dataLancamento;
     }
 
     // Getters e Setters
-    public Integer getId() {
-        return id;
+    public Integer getIdFilme() {
+        return idFilme;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdFilme(Integer idFilme) {
+        this.idFilme = idFilme;
     }
 
-    public String getNome() {
-        return nome;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getGenero() {
@@ -49,11 +49,13 @@ public class Filme {
         this.dataLancamento = dataLancamento;
     }
 
+    //TODO: Criar um método extra para a classe
+
+    // Método toString
     @Override
-    // toString
     public String toString() {
         return "Filme{" +
-                "nome='" + nome + '\'' +
+                "titulo='" + titulo + '\'' +
                 ", dataLancamento='" + dataLancamento + '\'' +
                 ", genero='" + genero + '\'' +
                 '}';
