@@ -50,7 +50,7 @@ public class Principal {
                 "Buscar exemplares disponiveis de um filme" };
         int escolha = JOptionPane.showOptionDialog(null, "O que deseja realizar?", "Locadora",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
-        Menu(escolha);
+        Menu(escolha, clienteArray, filmeArray, exemplarArray);
         // TODO: Fazer as opções ficarem uma embaixo da outra
         // Filme filme1 = new Filme(1, "O Senhor dos Anéis: A Sociedade do Anel",
         // "Fantasia", "19/12/2001");
