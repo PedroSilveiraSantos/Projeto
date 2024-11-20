@@ -8,6 +8,12 @@ public class Cliente {
     private String cpf;
     private String nome;
 
+    // Construtor
+    public Cliente (String cpf, String nome){
+        this.cpf = cpf;
+        this.nome = nome;
+    }
+    
     // Getters e Setters
     public String getCpf() {
         return cpf;
