@@ -1,5 +1,7 @@
 package entidades;
 
+import javax.swing.JOptionPane;
+
 public class Filme {
 
     // Atributos
@@ -48,8 +50,28 @@ public class Filme {
     public void setDataLancamento(String dataLancamento) {
         this.dataLancamento = dataLancamento;
     }
+    
+    // Metódo para buscar por um filme pelo seu id
+    public static Filme buscarFilme(Integer id, Filme[] filmes){
 
-    //TODO: Criar um método extra para a classe
+        // Caso array nula ou vazia
+        if(filmes == null || filmes.length == 0){
+            JOptionPane.showMessageDialog(null, "Não há nenhum filme cadastrado.", "Erro:2", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
+        // Busca por id
+        for(Filme filme : filmes){
+            if(filme.getIdFilme().equals(id)){ // Caso ache o filme procurado
+                return filme;
+            }
+        }
+
+        // Caso não ache o filme procurado
+        JOptionPane.showMessageDialog(null, "Não há filme com o id procurado.", "Erro:1", JOptionPane.WARNING_MESSAGE);
+        return null;
+
+    }
 
     // Método toString
     @Override
