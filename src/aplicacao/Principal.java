@@ -140,6 +140,7 @@ public class Principal {
             case 2:
 
                 // Cadastro de exemplares
+                //TODO: chamar o metodo
                 
 
             case 3:
@@ -149,6 +150,7 @@ public class Principal {
             case 4:
 
                 // Busca um filme
+                //TODO: chamar o metodo
 
             case 5:
 
@@ -222,4 +224,66 @@ public class Principal {
         Filme filme = new Filme(idFilme, titulo, genero, dataLancamento);
         return filme;
     }
+
+    public static int tamanhoArrayExemplar(Exemplar[] array) {
+
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    public static Exemplar cadastrarExemplar(Filme[] filmes, Exemplar[] exemplares) {
+        
+        Filme filme = null;
+        do {
+            
+            Integer idFilme = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+            filme = buscarFilme(filmes, idFilme);
+
+        } while (filme == null);
+
+        Integer idExemplar = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+        Boolean disponivel = null;
+        
+        do {
+
+            char disponivelTemp = JOptionPane.showInputDialog(null, "O exemplar está disponível? (s/n)", "Locadora", JOptionPane.PLAIN_MESSAGE).charAt(0);
+            if (disponivelTemp == 's' || disponivelTemp == 'S') {
+                disponivel = true;
+            } else if (disponivelTemp == 'n' || disponivelTemp == 'N') {
+                disponivel = false;
+            } else {
+                JOptionPane.showMessageDialog(null, "Resposta inválida", "Locadora", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } while (disponivel == null);
+
+        for (Exemplar exemplar : exemplares) {
+            if (exemplar != null && exemplar.getIdExemplar().equals(idExemplar)) {
+                JOptionPane.showMessageDialog(null, "O id do exemplar informado já está registrado na locadora", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                return null;
+            }
+        }
+
+        Exemplar exemplar = new Exemplar(filme.getIdFilme(), filme.getTitulo(), filme.getGenero(), filme.getDataLancamento(), idExemplar, disponivel);
+        return exemplar;
+
+    }
+
+    public static Filme buscarFilme(Filme[] filmes, Integer id){
+
+        for (Filme filme : filmes) {
+            if (filme != null && id.equals(filme.getIdFilme())) {
+                return filme;
+            }
+        }
+
+        return null;
+
+    }
+
 }
