@@ -51,19 +51,21 @@ public class Principal {
         cliente = null;
         // TODO: A esse ponto vcs já sabem oq é pra fazer
 
-        String[] opcoes = { "Cadastro de clientes", "Cadastro de filmes", "Cadastro de exemplares", "Realizar emprestimos", "Buscar um filme", "Buscar um cliente", "Listar exemplares", "Buscar exemplares disponiveis de um filme" };
+        String[] opcoes = { "Cadastro de clientes", "Cadastro de filmes", "Cadastro de exemplares",
+                "Realizar emprestimos", "Buscar um filme", "Buscar um cliente", "Listar exemplares",
+                "Buscar exemplares disponiveis de um filme" };
 
         String menu = "";
         byte opcoesContador = 0;
 
-        for ( String opcao : opcoes) {
+        for (String opcao : opcoes) {
             menu += opcoesContador + " - " + opcao + '\n';
             opcoesContador++;
         }
 
-        int escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "O que deseja realizar?\n\n" + menu + '\n', "Locadora", JOptionPane.PLAIN_MESSAGE));
+        int escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "O que deseja realizar?\n\n" + menu + '\n',
+                "Locadora", JOptionPane.PLAIN_MESSAGE));
         menu(escolha, clienteArray, filmeArray, exemplarArray);
-        // TODO: Fazer as opções ficarem uma embaixo da outra
         // Filme filme1 = new Filme(1, "O Senhor dos Anéis: A Sociedade do Anel",
         // "Fantasia", "19/12/2001");
         // filmeArray[0] = filme1;
@@ -169,18 +171,39 @@ public class Principal {
             case 5:
 
                 // Buscar um cliente
+                Cliente clienteBuscado = buscarCliente(clientes);
+                if (clienteBuscado != null) {
+                    JOptionPane.showMessageDialog(null, "Cliente encontrado:\n\n" + clienteBuscado.toString(), "Locadora", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Não foi encontrado nenhum cliente com esse cpf", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                }
 
             case 6:
 
                 // Listar exemplares
+                String textExemplares = Emprestimo.listarExemplares(exemplares);
+                if(exemplares != null){
+                    JOptionPane.showMessageDialog(null, "Exemplares:\n\n" + textExemplares, "Locadora", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Não há exemplares registrados", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                }
 
             case 7:
 
                 // Buscar exemplares disponíveis de um filme
+                Integer id = Integer.parseInt(JOptionPane.showInputDialog(null, "Qual o id do filme procurado?\n", "Locadora", JOptionPane.PLAIN_MESSAGE));
+                int quantidadeDeExemplares = Exemplar.quantidadeExemplar(id, exemplares);
+                if(quantidadeDeExemplares > 0){
+                    JOptionPane.showMessageDialog(null, "Exemplares disponíveis para empréstimo:\n\n" + quantidadeDeExemplares, "Locadora", JOptionPane.PLAIN_MESSAGE);
+                }else if (quantidadeDeExemplares == 0){
+                    JOptionPane.showMessageDialog(null, "Não há exemplares disponíveis", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Não há quaisquer exemplar registrado", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                }
 
             default:
-
                 // Caso seja uma opção inválida ou usuário fechar o menu.
+                return;
 
         }
     }
@@ -202,7 +225,8 @@ public class Principal {
 
         for (Cliente cliente : clientes) {
             if (cliente != null && cliente.getCpf().equals(cpf)) {
-                JOptionPane.showMessageDialog(null, "O CPF informado já está registrado na locadora", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O CPF informado já está registrado na locadora", "Locadora",
+                        JOptionPane.PLAIN_MESSAGE);
                 return null;
             }
         }
@@ -223,14 +247,19 @@ public class Principal {
     }
 
     public static Filme cadastrarFilme(Filme[] filmes) {
-        Integer idFilme = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
-        String titulo = JOptionPane.showInputDialog(null, "Informe o título do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE);
-        String genero = JOptionPane.showInputDialog(null, "Informe o gênero do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE);
-        String dataLancamento = JOptionPane.showInputDialog(null, "Informe a data de lançamento do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE);
+        Integer idFilme = Integer.parseInt(
+                JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+        String titulo = JOptionPane.showInputDialog(null, "Informe o título do filme: ", "Locadora",
+                JOptionPane.PLAIN_MESSAGE);
+        String genero = JOptionPane.showInputDialog(null, "Informe o gênero do filme: ", "Locadora",
+                JOptionPane.PLAIN_MESSAGE);
+        String dataLancamento = JOptionPane.showInputDialog(null, "Informe a data de lançamento do filme: ", "Locadora",
+                JOptionPane.PLAIN_MESSAGE);
 
         for (Filme filme : filmes) {
             if (filme != null && filme.getIdFilme().equals(idFilme)) {
-                JOptionPane.showMessageDialog(null, "O id do filme informado já está registrado na locadora", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O id do filme informado já está registrado na locadora",
+                        "Locadora", JOptionPane.PLAIN_MESSAGE);
                 return null;
             }
         }
@@ -251,21 +280,25 @@ public class Principal {
     }
 
     public static Exemplar cadastrarExemplar(Filme[] filmes, Exemplar[] exemplares) {
-        
+
         Filme filme = null;
         do {
-            
-            Integer idFilme = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+
+            Integer idFilme = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora",
+                    JOptionPane.PLAIN_MESSAGE));
             filme = Filme.buscarFilme(idFilme, filmes);
 
         } while (filme == null);
 
-        Integer idExemplar = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+        Integer idExemplar = Integer.parseInt(
+                JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
         Boolean disponivel = null;
-        
+
         do {
 
-            char disponivelTemp = JOptionPane.showInputDialog(null, "O exemplar está disponível? (s/n)", "Locadora", JOptionPane.PLAIN_MESSAGE).charAt(0);
+            char disponivelTemp = JOptionPane
+                    .showInputDialog(null, "O exemplar está disponível? (s/n)", "Locadora", JOptionPane.PLAIN_MESSAGE)
+                    .charAt(0);
             if (disponivelTemp == 's' || disponivelTemp == 'S') {
                 disponivel = true;
             } else if (disponivelTemp == 'n' || disponivelTemp == 'N') {
@@ -278,22 +311,32 @@ public class Principal {
 
         for (Exemplar exemplar : exemplares) {
             if (exemplar != null && exemplar.getIdExemplar().equals(idExemplar)) {
-                JOptionPane.showMessageDialog(null, "O id do exemplar informado já está registrado na locadora", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O id do exemplar informado já está registrado na locadora",
+                        "Locadora", JOptionPane.PLAIN_MESSAGE);
                 return null;
             }
         }
 
-        Exemplar exemplar = new Exemplar(filme.getIdFilme(), filme.getTitulo(), filme.getGenero(), filme.getDataLancamento(), idExemplar, disponivel);
+        Exemplar exemplar = new Exemplar(filme.getIdFilme(), filme.getTitulo(), filme.getGenero(),
+                filme.getDataLancamento(), idExemplar, disponivel);
         return exemplar;
 
     }
 
     public static Filme buscarFilme(Filme[] filmes) {
 
-        Integer id = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+        Integer id = Integer.parseInt(
+                JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
         Filme filme = Filme.buscarFilme(id, filmes);
         return filme;
 
+    }
+
+    public static Cliente buscarCliente(Cliente[] clientes) {
+        String cpf = JOptionPane.showInputDialog(null, "Informe o cpf do cliente:", "Locadora",
+                JOptionPane.PLAIN_MESSAGE);
+        Cliente cliente = Cliente.buscarCliente(cpf, clientes);
+        return cliente;
     }
 
 }

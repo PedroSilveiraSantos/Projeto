@@ -9,11 +9,11 @@ public class Cliente {
     private String nome;
 
     // Construtor
-    public Cliente (String cpf, String nome){
+    public Cliente(String cpf, String nome) {
         this.cpf = cpf;
         this.nome = nome;
     }
-    
+
     // Getters e Setters
     public String getCpf() {
         return cpf;
@@ -30,19 +30,20 @@ public class Cliente {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     // Metódo que busca um cliente pelo seu cpf
-    public static Cliente buscarCliente(String cpf, Cliente[] clientes){
+    public static Cliente buscarCliente(String cpf, Cliente[] clientes) {
 
         // Caso array nula ou vazia
-        if(clientes == null || clientes.length == 0){
-            JOptionPane.showMessageDialog(null, "Não há nenhum cliente cadastrado.", "Erro:4", JOptionPane.ERROR_MESSAGE);
+        if (clientes == null || clientes.length == 0) {
+            JOptionPane.showMessageDialog(null, "Não há nenhum cliente cadastrado.", "Erro:4",
+                    JOptionPane.ERROR_MESSAGE);
             return null;
         }
 
         // Busca por cpf
-        for(Cliente cliente : clientes){
-            if(cliente.getCpf().equals(cpf)){
+        for (Cliente cliente : clientes) {
+            if (cliente.getCpf().equals(cpf)) {
                 return cliente;
             }
         }

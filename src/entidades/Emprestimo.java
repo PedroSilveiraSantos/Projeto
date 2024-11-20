@@ -50,7 +50,7 @@ public class Emprestimo {
     }
 
     // Método que lista os exemplares
-    public String listarExemplares(Exemplar[] exemplares) {
+    public static String listarExemplares(Exemplar[] exemplares) {
         String lista = "";
         for (Exemplar exemplar : exemplares) {
             if (exemplar != null) {

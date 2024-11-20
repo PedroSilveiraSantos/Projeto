@@ -1,7 +1,5 @@
 package entidades;
 
-import javax.swing.JOptionPane;
-
 public class Exemplar extends Filme {
 
     // Atributos
@@ -9,7 +7,8 @@ public class Exemplar extends Filme {
     private Boolean disponivel;
 
     // Construtor
-    public Exemplar(Integer idFilme, String titulo, String genero, String dataLancamento, Integer idExemplar, Boolean disponivel) {
+    public Exemplar(Integer idFilme, String titulo, String genero, String dataLancamento, Integer idExemplar,
+            Boolean disponivel) {
         super(idFilme, titulo, genero, dataLancamento);
         this.idExemplar = idExemplar;
         this.disponivel = disponivel;
@@ -39,8 +38,7 @@ public class Exemplar extends Filme {
         int cont = 0;
         // Caso array nula ou vazia
         if (exemplares == null || exemplares.length == 0) {
-            JOptionPane.showMessageDialog(null, "Não há exemplares cadastrados.", "Erro:6", JOptionPane.ERROR_MESSAGE);
-            return 0;
+            return -1;
         }
 
         // Busca por exemplares não nulos disponiveis
@@ -51,8 +49,6 @@ public class Exemplar extends Filme {
         }
 
         if (cont == 0) { // Caso nenhum exemplar disponível
-            JOptionPane.showMessageDialog(null, "Não há exemplares disponíveis desse filme.", "Erro:3",
-                    JOptionPane.WARNING_MESSAGE);
             return 0;
         }
 
