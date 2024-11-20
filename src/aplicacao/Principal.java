@@ -140,8 +140,17 @@ public class Principal {
             case 2:
 
                 // Cadastro de exemplares
-                //TODO: chamar o metodo
-                
+                tamanho = tamanhoArrayExemplar(exemplares);
+                Exemplar novoExemplar = cadastrarExemplar(filmes, exemplares);
+                if (tamanho != -1) {
+                    if (novoExemplar != null) {
+                        exemplares[tamanho] = novoExemplar;
+                        JOptionPane.showMessageDialog(null, "Exemplar cadastrado com sucesso.", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tamanho máximo atingido", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                }
+                break;
 
             case 3:
 
@@ -150,7 +159,12 @@ public class Principal {
             case 4:
 
                 // Busca um filme
-                //TODO: chamar o metodo
+                Filme filmeBuscado = buscarFilme(filmes);
+                if (filmeBuscado != null) {
+                    JOptionPane.showMessageDialog(null, "Filme encontrado:\n\n" + filmeBuscado.toString(), "Locadora", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Não foi encontrado nenhum filme", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                }
 
             case 5:
 
@@ -242,7 +256,7 @@ public class Principal {
         do {
             
             Integer idFilme = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
-            filme = buscarFilme(filmes, idFilme);
+            filme = Filme.buscarFilme(idFilme, filmes);
 
         } while (filme == null);
 
@@ -274,15 +288,11 @@ public class Principal {
 
     }
 
-    public static Filme buscarFilme(Filme[] filmes, Integer id){
+    public static Filme buscarFilme(Filme[] filmes) {
 
-        for (Filme filme : filmes) {
-            if (filme != null && id.equals(filme.getIdFilme())) {
-                return filme;
-            }
-        }
-
-        return null;
+        Integer id = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+        Filme filme = Filme.buscarFilme(id, filmes);
+        return filme;
 
     }
 

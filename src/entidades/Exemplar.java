@@ -9,8 +9,7 @@ public class Exemplar extends Filme {
     private Boolean disponivel;
 
     // Construtor
-    public Exemplar(Integer idFilme, String titulo, String genero, String dataLancamento, Integer idExemplar,
-            Boolean disponivel) {
+    public Exemplar(Integer idFilme, String titulo, String genero, String dataLancamento, Integer idExemplar, Boolean disponivel) {
         super(idFilme, titulo, genero, dataLancamento);
         this.idExemplar = idExemplar;
         this.disponivel = disponivel;
