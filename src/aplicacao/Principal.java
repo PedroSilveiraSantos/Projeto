@@ -1,7 +1,7 @@
 package aplicacao;
 
-import javax.swing.*;
 import entidades.*;
+import javax.swing.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -185,10 +185,10 @@ public class Principal {
             case 6:
 
                 // Listar exemplares
-                String textExemplares = Emprestimo.listarExemplares(exemplares);
                 if (exemplares != null) {
+                    String textExemplares = Emprestimo.listarExemplares(exemplares);
                     JOptionPane.showMessageDialog(null, "Exemplares:\n\n" + textExemplares, "Locadora",
-                            JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.PLAIN_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "Não há exemplares registrados", "Locadora",
                             JOptionPane.PLAIN_MESSAGE);
@@ -463,7 +463,7 @@ public class Principal {
             do {
                 exemplar = buscarExemplar(exemplares);
                 // Verifica se o exemplar está disponível para empréstimo
-                if (!exemplar.getDisponivel()) {
+                if (exemplar != null && !exemplar.getDisponivel()) {
                     JOptionPane.showMessageDialog(null, "Exemplar não disponível", "Erro", JOptionPane.WARNING_MESSAGE);
                     exemplar = null;
                 }
@@ -547,7 +547,17 @@ public class Principal {
             }
         } while (cpf == null || cpf.isEmpty());
 
-        return Cliente.buscarCliente(cpf, clientes); // Retorna o cliente encontrado
+        // Busca e retorna o exemplar com o ID fornecido
+        for (Cliente cliente : clientes) {
+            if (cliente != null && cpf.equals(cliente.getCpf())) {
+                return cliente;
+            }
+        }
+
+        // Caso não encontre o cliente com o CPF informado, exibe mensagem de erro
+        JOptionPane.showMessageDialog(null, "Não há cliente com o CPF procurado.", "Erro",
+                JOptionPane.WARNING_MESSAGE);
+        return null;
     }
 
     // Busca um exemplar pelo ID e retorna o Exemplar correspondente
