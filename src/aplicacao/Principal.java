@@ -8,12 +8,13 @@ import java.time.format.DateTimeFormatter;
 public class Principal {
 
     public static void main(String[] args) {
-
+        // Arrays de objetos
         Filme[] filmeArray = new Filme[100];
         Exemplar[] exemplarArray = new Exemplar[100];
         Cliente[] clienteArray = new Cliente[100];
         Emprestimo[] emprestimoArray = new Emprestimo[100];
 
+        // Instanciando objetos
         Filme filme = new Filme(1, "O Senhor dos Anéis: A Sociedade do Anel", "Fantasia", "19/12/2001");
         filmeArray[0] = filme;
         filme = new Filme(2, "Guerra nas Estrelas", "Ficção científica", "25/05/1977");
@@ -49,6 +50,8 @@ public class Principal {
         clienteArray[4] = cliente;
         cliente = new Cliente("987-789", "Giovanna");
         clienteArray[5] = cliente;
+        cliente = new Cliente("987-789", "Guilherme");
+        clienteArray[6] = cliente;
         cliente = null;
 
         String[] opcoes = { "Cadastro de clientes", "Cadastro de filmes", "Cadastro de exemplares",
@@ -58,13 +61,14 @@ public class Principal {
         String menu = "";
         byte opcoesContador = 0;
 
+        // Construção do menu em formato de String
         for (String opcao : opcoes) {
             menu += opcoesContador + " - " + opcao + '\n';
             opcoesContador++;
         }
 
         Boolean repetirMenu = false;
-
+        // Loop do menu
         do {
 
             int escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "O que deseja realizar?\n\n" + menu + '\n',
@@ -75,6 +79,7 @@ public class Principal {
 
     }
 
+    // Método para controlar as opções do menu
     public static Boolean menu(int escolha, Cliente[] clientes, Filme[] filmes, Exemplar[] exemplares,
             Emprestimo[] emprestimos) {
 
@@ -223,30 +228,32 @@ public class Principal {
         }
     }
 
+    // Metódo que retorna a posição onde o novo cliente pode ser armazenado
     public static int tamanhoArrayCliente(Cliente array[]) {
-
+        // Percorre o array de clientes e retorna o índice do primeiro elemento nulo
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) {
                 return i;
             }
         }
+        // Retorna -1 caso o array esteja cheio.
         return -1;
-
     }
 
+    // Metódo para cadastrar novos clientes
     public static Cliente cadastrarCliente(Cliente clientes[]) {
         String cpf;
 
+        // Solicita ao usuário o CPF, garantindo que ele não seja vazio ou nulo.
         do {
-
             cpf = JOptionPane.showInputDialog(null, "Informe o CPF: ", "Locadora", JOptionPane.PLAIN_MESSAGE);
 
             if (cpf == null || cpf.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum CPF inserido", "Locadora", JOptionPane.ERROR_MESSAGE);
             }
-
         } while (cpf == null || cpf.isEmpty());
 
+        // Verifica se o CPF já existe no array de clientes.
         for (Cliente cliente : clientes) {
             if (cliente != null && cliente.getCpf().equals(cpf)) {
                 JOptionPane.showMessageDialog(null, "O CPF informado já está registrado na locadora", "Locadora",
@@ -257,48 +264,47 @@ public class Principal {
 
         String nome;
 
+        // Solicita o nome do cliente, garantindo que ele não seja vazio ou nulo.
         do {
-
             nome = JOptionPane.showInputDialog(null, "Informe o nome: ", "Locadora", JOptionPane.PLAIN_MESSAGE);
 
             if (nome == null || nome.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum nome inserido", "Locadora", JOptionPane.ERROR_MESSAGE);
             }
-
         } while (nome == null || nome.isEmpty());
 
+        // Cria um novo cliente com os dados informados e o retorna.
         Cliente cliente = new Cliente(cpf, nome);
         return cliente;
     }
 
     public static int tamanhoArrayFilme(Filme[] array) {
-
+        // Percorre o array de filmes e retorna o índice do primeiro elemento nulo.
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) {
                 return i;
             }
         }
+        // Retorna -1 caso o array esteja cheio.
         return -1;
-
     }
 
     public static Filme cadastrarFilme(Filme[] filmes) {
-
         String idFilmeString;
 
+        // Solicita o ID do filme, garantindo que ele não seja vazio ou nulo.
         do {
-
             idFilmeString = JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora",
                     JOptionPane.PLAIN_MESSAGE);
 
             if (idFilmeString == null || idFilmeString.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum id inserido", "Locadora", JOptionPane.ERROR_MESSAGE);
             }
-
         } while (idFilmeString == null || idFilmeString.isEmpty());
 
         Integer idFilme = Integer.parseInt(idFilmeString);
 
+        // Verifica se o ID do filme já está registrado.
         for (Filme filme : filmes) {
             if (filme != null && filme.getIdFilme().equals(idFilme)) {
                 JOptionPane.showMessageDialog(null, "O id do filme informado já está registrado na locadora",
@@ -309,6 +315,7 @@ public class Principal {
 
         String titulo;
 
+        // Solicita o título do filme.
         do {
             titulo = JOptionPane.showInputDialog(null, "Informe o título do filme:", "Locadora",
                     JOptionPane.PLAIN_MESSAGE);
@@ -320,6 +327,7 @@ public class Principal {
 
         String genero;
 
+        // Solicita o gênero do filme.
         do {
             genero = JOptionPane.showInputDialog(null, "Informe o gênero do filme:", "Locadora",
                     JOptionPane.PLAIN_MESSAGE);
@@ -331,6 +339,7 @@ public class Principal {
 
         String dataLancamento;
 
+        // Solicita a data de lançamento do filme.
         do {
             dataLancamento = JOptionPane.showInputDialog(null, "Informe a data de lançamento do filme:", "Locadora",
                     JOptionPane.PLAIN_MESSAGE);
@@ -341,70 +350,65 @@ public class Principal {
             }
         } while (dataLancamento == null || dataLancamento.isEmpty());
 
+        // Cria um novo filme com os dados informados e o retorna.
         Filme filme = new Filme(idFilme, titulo, genero, dataLancamento);
         return filme;
     }
 
     public static int tamanhoArrayExemplar(Exemplar[] array) {
-
+        // Percorre o array de exemplares e retorna o índice do primeiro valor nulo
+        // encontrado.
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) {
                 return i;
             }
         }
+        // Retorna -1 se o array estiver cheio
         return -1;
-
     }
 
+    // Cadastra um exemplar, verificando se o ID já existe e se está disponível para
+    // locação
     public static Exemplar cadastrarExemplar(Filme[] filmes, Exemplar[] exemplares) {
-
         Filme filme = null;
+        // Loop para garantir que um filme válido seja selecionado
         do {
-
             filme = buscarFilme(filmes);
-
         } while (filme == null);
 
         String idExemplarString;
-
+        // Loop para garantir que o ID do exemplar seja informado
         do {
-
             idExemplarString = JOptionPane.showInputDialog(null, "Informe o id do exemplar: ", "Locadora",
                     JOptionPane.PLAIN_MESSAGE);
-
             if (idExemplarString == null || idExemplarString.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum id inserido", "Locadora", JOptionPane.ERROR_MESSAGE);
             }
-
         } while (idExemplarString == null || idExemplarString.isEmpty());
 
         Integer idExemplar = Integer.parseInt(idExemplarString);
 
+        // Verifica se o ID do exemplar já está cadastrado
         for (Exemplar exemplar : exemplares) {
             if (exemplar != null && exemplar.getIdExemplar().equals(idExemplar)) {
-                JOptionPane.showMessageDialog(null, "O id do exemplar informado já está registrado na locadora",
-                        "Locadora", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "ID já registrado", "Locadora", JOptionPane.PLAIN_MESSAGE);
                 return null;
             }
         }
 
         Boolean disponivel = null;
-
+        // Loop para garantir que a disponibilidade seja corretamente definida
         do {
             String disponivelString;
             char disponivelTemp = ' ';
-
             do {
-
-                disponivelString = JOptionPane
-                        .showInputDialog(null, "O exemplar está disponível? (s/n)", "Locadora",
-                                JOptionPane.PLAIN_MESSAGE);
+                disponivelString = JOptionPane.showInputDialog(null, "Está disponível? (s/n)", "Locadora",
+                        JOptionPane.PLAIN_MESSAGE);
                 if (disponivelString != null && !disponivelString.isEmpty()) {
                     disponivelTemp = disponivelString.charAt(0);
                 } else {
                     JOptionPane.showMessageDialog(null, "Digite uma opção", "Locadora", JOptionPane.ERROR_MESSAGE);
                 }
-
             } while (disponivelString == null || disponivelString.isEmpty());
 
             if (disponivelTemp == 's' || disponivelTemp == 'S') {
@@ -414,38 +418,39 @@ public class Principal {
             } else {
                 JOptionPane.showMessageDialog(null, "Resposta inválida", "Locadora", JOptionPane.ERROR_MESSAGE);
             }
-
         } while (disponivel == null);
 
-        Exemplar exemplar = new Exemplar(filme.getIdFilme(), filme.getTitulo(), filme.getGenero(),
-                filme.getDataLancamento(), idExemplar, disponivel);
-        return exemplar;
-
+        // Cria e retorna o exemplar com as informações fornecidas
+        return new Exemplar(filme.getIdFilme(), filme.getTitulo(), filme.getGenero(), filme.getDataLancamento(),
+                idExemplar, disponivel);
     }
 
     public static int tamanhoArrayEmprestimo(Emprestimo[] array) {
 
+        // Percorre o array de exemplares e retorna o índice do primeiro valor nulo
+        // encontrado.
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) {
                 return i;
             }
         }
+        // Retorna -1 caso o array esteja cheio.
         return -1;
 
     }
 
     static Integer emprestimosContador = 1;
 
+    // Realiza um empréstimo, registrando os exemplares emprestados e os clientes
+    // envolvidos
     public static Emprestimo realizarEmprestimo(Emprestimo[] emprestimos, Cliente[] clientes, Exemplar[] exemplares) {
-
         Integer idEmprestimo = emprestimosContador;
         String data = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString();
         Cliente cliente = null;
 
+        // Loop para garantir que um cliente válido seja selecionado
         do {
-
             cliente = buscarCliente(clientes);
-
         } while (cliente == null);
 
         Exemplar[] emprestimoExemplares = new Exemplar[10];
@@ -453,40 +458,32 @@ public class Principal {
         Boolean maisExemplares = false;
         char escolha = ' ';
 
+        // Loop para adicionar exemplares ao empréstimo
         do {
-
             do {
-
                 exemplar = buscarExemplar(exemplares);
-
+                // Verifica se o exemplar está disponível para empréstimo
                 if (!exemplar.getDisponivel()) {
-                    JOptionPane.showMessageDialog(null, "Esse exemplar não está disponível.", "Erro",
-                            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Exemplar não disponível", "Erro", JOptionPane.WARNING_MESSAGE);
                     exemplar = null;
                 }
-
             } while (exemplar == null);
 
             emprestimoExemplares[emprestimosContador++] = exemplar;
 
+            // Pergunta ao usuário se deseja alocar mais exemplares
             do {
-
                 if (emprestimosContador < 10) {
-
                     String escolhaString;
-
                     do {
-
-                        escolhaString = JOptionPane
-                                .showInputDialog(null, "Mais exemplares foram emprestados? (s/n)", "Locadora",
-                                        JOptionPane.PLAIN_MESSAGE);
+                        escolhaString = JOptionPane.showInputDialog(null, "Adicionar mais exemplares? (s/n)",
+                                "Locadora", JOptionPane.PLAIN_MESSAGE);
                         if (escolhaString != null && !escolhaString.isEmpty()) {
                             escolha = escolhaString.charAt(0);
                         } else {
                             JOptionPane.showMessageDialog(null, "Digite uma opção", "Locadora",
                                     JOptionPane.ERROR_MESSAGE);
                         }
-
                     } while (escolhaString == null || escolhaString.isEmpty());
 
                     if (escolha == 's' || escolha == 'S') {
@@ -497,20 +494,19 @@ public class Principal {
                         JOptionPane.showMessageDialog(null, "Resposta inválida", "Locadora", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "O limite máximo de exemplares por empréstimo foi atingido",
-                            "Locadora", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Limite de exemplares atingido", "Locadora",
+                            JOptionPane.ERROR_MESSAGE);
                 }
-
             } while (escolha != 's' && escolha != 'S' && escolha != 'n' && escolha != 'N');
+        } while (maisExemplares);
 
-        } while (maisExemplares == true);
-
-        Emprestimo emprestimo = new Emprestimo(idEmprestimo, data, cliente, emprestimoExemplares);
-        return emprestimo;
+        // Cria o objeto Emprestimo e retorna
+        return new Emprestimo(idEmprestimo, data, cliente, emprestimoExemplares);
     }
 
+    // Metódo que altera a disponibilidade dos exemplares emprestados para não
+    // disponível
     public static void alterarDisponibilidade(Emprestimo emprestimo, Exemplar[] exemplares) {
-
         for (Exemplar exemplar : exemplares) {
             for (Exemplar emprestimoExemplar : emprestimo.getExemplares()) {
                 if (exemplar != null && emprestimoExemplar != null
@@ -520,74 +516,66 @@ public class Principal {
                 }
             }
         }
-
     }
 
+    // Busca um filme pelo ID e retorna o Filme correspondente
     public static Filme buscarFilme(Filme[] filmes) {
-
         String idFilmeString;
 
+        // Loop para garantir que um ID de filme válido seja informado
         do {
-
             idFilmeString = JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora",
                     JOptionPane.PLAIN_MESSAGE);
-
             if (idFilmeString == null || idFilmeString.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum id inserido", "Locadora", JOptionPane.ERROR_MESSAGE);
             }
-
         } while (idFilmeString == null || idFilmeString.isEmpty());
 
         Integer id = Integer.parseInt(idFilmeString);
-
-        Filme filme = Filme.buscarFilme(id, filmes);
-        return filme;
-
+        return Filme.buscarFilme(id, filmes); // Retorna o filme encontrado
     }
 
+    // Busca um cliente pelo CPF e retorna o Cliente correspondente
     public static Cliente buscarCliente(Cliente[] clientes) {
         String cpf;
 
+        // Loop para garantir que o CPF seja informado
         do {
-
             cpf = JOptionPane.showInputDialog(null, "Informe o CPF: ", "Locadora", JOptionPane.PLAIN_MESSAGE);
-
             if (cpf == null || cpf.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum CPF inserido", "Locadora", JOptionPane.ERROR_MESSAGE);
             }
-
         } while (cpf == null || cpf.isEmpty());
-        Cliente cliente = Cliente.buscarCliente(cpf, clientes);
-        return cliente;
+
+        return Cliente.buscarCliente(cpf, clientes); // Retorna o cliente encontrado
     }
 
+    // Busca um exemplar pelo ID e retorna o Exemplar correspondente
     public static Exemplar buscarExemplar(Exemplar[] exemplares) {
-
         String idExemplarString;
 
+        // Loop para garantir que o ID do exemplar seja informado
         do {
-
             idExemplarString = JOptionPane.showInputDialog(null, "Informe o id do exemplar: ", "Locadora",
                     JOptionPane.PLAIN_MESSAGE);
-
             if (idExemplarString == null || idExemplarString.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nenhum id inserido", "Locadora", JOptionPane.ERROR_MESSAGE);
             }
-
         } while (idExemplarString == null || idExemplarString.isEmpty());
 
         Integer id = Integer.parseInt(idExemplarString);
 
+        // Busca e retorna o exemplar com o ID fornecido
         for (Exemplar exemplar : exemplares) {
             if (exemplar != null && id.equals(exemplar.getIdExemplar())) {
                 return exemplar;
             }
         }
 
+        // Caso não encontre o exemplar com o ID informado, exibe mensagem de erro
         JOptionPane.showMessageDialog(null, "Não há exemplar com o id procurado.", "Erro:1",
                 JOptionPane.WARNING_MESSAGE);
         return null;
-
     }
 
 }
