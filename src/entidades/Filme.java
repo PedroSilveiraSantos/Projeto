@@ -8,12 +8,19 @@ public class Filme {
     private String genero;
     private String dataLancamento;
 
-    // Construtor
+    // Construtores
     public Filme(Integer idFilme, String titulo, String genero, String dataLancamento) {
         this.idFilme = idFilme;
         this.titulo = titulo;
         this.genero = genero;
         this.dataLancamento = dataLancamento;
+    }
+    public Filme(Integer idFilme){
+        this.idFilme = idFilme;
+    }
+    public Filme(Integer idFilme, String titulo){
+        this.idFilme = idFilme;
+        this.titulo = titulo;
     }
 
     // Getters e Setters

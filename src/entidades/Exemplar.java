@@ -6,12 +6,22 @@ public class Exemplar extends Filme {
     private Integer idExemplar;
     private Boolean disponivel;
 
-    // Construtor
+    // Construtores
     public Exemplar(Integer idFilme, String titulo, String genero, String dataLancamento, Integer idExemplar,
             Boolean disponivel) {
         super(idFilme, titulo, genero, dataLancamento);
         this.idExemplar = idExemplar;
         this.disponivel = disponivel;
+    }
+    public Exemplar(Integer idExemplar, Boolean disponivel, Integer idFilme){
+        super(idFilme);
+        this.disponivel = disponivel;
+        this.idExemplar = idExemplar;
+    }
+    public Exemplar(Integer idExemplar, Boolean disponivel, Integer idFilme, String titulo){
+        super(idFilme, titulo);
+        this.disponivel = disponivel;
+        this.idExemplar = idExemplar;
     }
 
     // Getters e Setters
