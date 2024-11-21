@@ -1,7 +1,5 @@
 package entidades;
 
-import javax.swing.JOptionPane;
-
 public class Filme {
 
     // Atributos
@@ -56,19 +54,17 @@ public class Filme {
 
         // Caso array nula ou vazia
         if (filmes == null || filmes.length == 0) {
-            JOptionPane.showMessageDialog(null, "Não há nenhum filme cadastrado.", "Erro:2", JOptionPane.ERROR_MESSAGE);
             return null;
         }
 
         // Busca por id
         for (Filme filme : filmes) {
-            if (filme.getIdFilme().equals(id)) { // Caso ache o filme procurado
+            if (filme != null && filme.getIdFilme().equals(id)) { // Caso ache o filme procurado
                 return filme;
             }
         }
 
         // Caso não ache o filme procurado
-        JOptionPane.showMessageDialog(null, "Não há filme com o id procurado.", "Erro:1", JOptionPane.WARNING_MESSAGE);
         return null;
 
     }
