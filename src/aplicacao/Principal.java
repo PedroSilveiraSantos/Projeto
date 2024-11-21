@@ -2,14 +2,16 @@ package aplicacao;
 
 import javax.swing.*;
 import entidades.*;
+import java.time.*;
 
 public class Principal {
 
     public static void main(String[] args) {
 
-        Filme filmeArray[] = new Filme[100];
-        Exemplar exemplarArray[] = new Exemplar[100];
-        Cliente clienteArray[] = new Cliente[100];
+        Filme[] filmeArray = new Filme[100];
+        Exemplar[] exemplarArray = new Exemplar[100];
+        Cliente[] clienteArray = new Cliente[100];
+        Emprestimo[] emprestimoArray = new Emprestimo[100];
 
         Filme filme = new Filme(1, "O Senhor dos Anéis: A Sociedade do Anel", "Fantasia", "19/12/2001");
         filmeArray[0] = filme;
@@ -53,7 +55,7 @@ public class Principal {
 
         String[] opcoes = { "Cadastro de clientes", "Cadastro de filmes", "Cadastro de exemplares",
                 "Realizar emprestimos", "Buscar um filme", "Buscar um cliente", "Listar exemplares",
-                "Buscar exemplares disponiveis de um filme" };
+                "Buscar exemplares disponiveis de um filme", "Sair" };
 
         String menu = "";
         byte opcoesContador = 0;
@@ -63,9 +65,15 @@ public class Principal {
             opcoesContador++;
         }
 
-        int escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "O que deseja realizar?\n\n" + menu + '\n',
+        Boolean repetirMenu = false;
+
+        do {
+
+            int escolha = Integer.parseInt(JOptionPane.showInputDialog(null, "O que deseja realizar?\n\n" + menu + '\n',
                 "Locadora", JOptionPane.PLAIN_MESSAGE));
-        menu(escolha, clienteArray, filmeArray, exemplarArray);
+            repetirMenu = menu(escolha, clienteArray, filmeArray, exemplarArray, emprestimoArray);
+
+        } while (repetirMenu);
         // Filme filme1 = new Filme(1, "O Senhor dos Anéis: A Sociedade do Anel",
         // "Fantasia", "19/12/2001");
         // filmeArray[0] = filme1;
@@ -102,7 +110,7 @@ public class Principal {
         // clienteArray[2] = cliente3;
     }
 
-    public static void menu(int escolha, Cliente clientes[], Filme filmes[], Exemplar exemplares[]) {
+    public static Boolean menu(int escolha, Cliente[] clientes, Filme[] filmes, Exemplar[] exemplares, Emprestimo[] emprestimos) {
 
         int tamanho;
 
@@ -122,7 +130,7 @@ public class Principal {
                     JOptionPane.showMessageDialog(null, "Tamanho máximo atingido", "Locadora",
                             JOptionPane.PLAIN_MESSAGE);
                 }
-                break;
+                return true;                
 
             case 1:
 
@@ -137,7 +145,7 @@ public class Principal {
                 } else {
                     JOptionPane.showMessageDialog(null, "Tamanho máximo atingido", "Locadora", JOptionPane.PLAIN_MESSAGE);
                 }
-                break;
+                return true;                
 
             case 2:
 
@@ -152,11 +160,22 @@ public class Principal {
                 } else {
                     JOptionPane.showMessageDialog(null, "Tamanho máximo atingido", "Locadora", JOptionPane.PLAIN_MESSAGE);
                 }
-                break;
+                return true;                
 
             case 3:
 
                 // Realizar empréstimos
+                tamanho = tamanhoArrayEmprestimo(emprestimos);
+                Emprestimo novoEmprestimo = realizarEmprestimo(emprestimos, clientes, exemplares);
+                if (tamanho != -1) {
+                    if (novoEmprestimo != null) {
+                        emprestimos[tamanho] = novoEmprestimo;
+                        JOptionPane.showMessageDialog(null, "Emprestimo realizado com sucesso.", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tamanho máximo atingido", "Locadora", JOptionPane.PLAIN_MESSAGE);
+                }
+                return true;                
 
             case 4:
 
@@ -167,6 +186,7 @@ public class Principal {
                 } else {
                     JOptionPane.showMessageDialog(null, "Não foi encontrado nenhum filme", "Locadora", JOptionPane.PLAIN_MESSAGE);
                 }
+                return true;                
 
             case 5:
 
@@ -177,6 +197,7 @@ public class Principal {
                 } else {
                     JOptionPane.showMessageDialog(null, "Não foi encontrado nenhum cliente com esse cpf", "Locadora", JOptionPane.PLAIN_MESSAGE);
                 }
+                return true;                
 
             case 6:
 
@@ -187,6 +208,7 @@ public class Principal {
                 } else {
                     JOptionPane.showMessageDialog(null, "Não há exemplares registrados", "Locadora", JOptionPane.PLAIN_MESSAGE);
                 }
+                return true;                
 
             case 7:
 
@@ -200,10 +222,18 @@ public class Principal {
                 }else{
                     JOptionPane.showMessageDialog(null, "Não há quaisquer exemplar registrado", "Locadora", JOptionPane.PLAIN_MESSAGE);
                 }
+                return true;                
+
+            case 8:
+            
+                // Fecha o programa ao retornar para a main
+                return false;
 
             default:
-                // Caso seja uma opção inválida ou usuário fechar o menu.
-                return;
+
+                // Caso seja uma opção inválida.
+                JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.WARNING_MESSAGE);
+                return true;
 
         }
     }
@@ -284,14 +314,12 @@ public class Principal {
         Filme filme = null;
         do {
 
-            Integer idFilme = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora",
-                    JOptionPane.PLAIN_MESSAGE));
-            filme = Filme.buscarFilme(idFilme, filmes);
+            filme = buscarFilme(filmes);
 
         } while (filme == null);
 
         Integer idExemplar = Integer.parseInt(
-                JOptionPane.showInputDialog(null, "Informe o id do filme: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+                JOptionPane.showInputDialog(null, "Informe o id do exemplar: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
         Boolean disponivel = null;
 
         do {
@@ -323,6 +351,71 @@ public class Principal {
 
     }
 
+    public static int tamanhoArrayEmprestimo(Emprestimo[] array) {
+
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    static Integer emprestimosContador = 0;
+
+    public static Emprestimo realizarEmprestimo(Emprestimo[] emprestimos, Cliente[] clientes, Exemplar[] exemplares) {
+
+        Integer idEmprestimo = emprestimosContador;
+        String data = LocalDate.now().toString();
+        Cliente cliente = null;
+
+        do {
+
+            cliente = buscarCliente(clientes);
+
+        } while (cliente == null);
+
+        Exemplar[] emprestimoExemplares = new Exemplar[10];
+        Exemplar exemplar = null;
+        Boolean maisExemplares = false;
+        char escolha = ' ';
+
+        do {
+            
+            do {
+    
+                exemplar = buscarExemplar(exemplares);
+    
+            } while (exemplar == null);
+
+            emprestimoExemplares[emprestimosContador++] = exemplar;
+
+            do {
+
+                if (emprestimosContador >= 10) {
+                    escolha = JOptionPane
+                    .showInputDialog(null, "Mais exemplares foram emprestados? (s/n)", "Locadora", JOptionPane.PLAIN_MESSAGE)
+                    .charAt(0);
+                    if (escolha == 's' || escolha == 'S') {
+                        maisExemplares = true;
+                    } else if (escolha == 'n' || escolha == 'N') {
+                        maisExemplares = false;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Resposta inválida", "Locadora", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "O limite máximo de exemplares por empréstimo foi atingido", "Locadora", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } while (escolha != 's' && escolha != 'S' && escolha != 'n' && escolha != 'N' && emprestimosContador < 10);
+
+        } while (maisExemplares == true);
+
+        Emprestimo emprestimo = new Emprestimo(idEmprestimo, data, cliente, emprestimoExemplares);
+        return emprestimo;
+    }
+
     public static Filme buscarFilme(Filme[] filmes) {
 
         Integer id = Integer.parseInt(
@@ -337,6 +430,21 @@ public class Principal {
                 JOptionPane.PLAIN_MESSAGE);
         Cliente cliente = Cliente.buscarCliente(cpf, clientes);
         return cliente;
+    }
+
+    public static Exemplar buscarExemplar(Exemplar[] exemplares) {
+
+        Integer id = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o id do exemplar: ", "Locadora", JOptionPane.PLAIN_MESSAGE));
+        
+        for (Exemplar exemplar : exemplares) {
+            if (exemplar != null && id.equals(exemplar.getIdExemplar())) {
+                return exemplar;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Não há exemplar com o id procurado.", "Erro:1", JOptionPane.WARNING_MESSAGE);
+        return null;
+
     }
 
 }

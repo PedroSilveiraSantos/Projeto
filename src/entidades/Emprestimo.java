@@ -60,9 +60,6 @@ public class Emprestimo {
         return lista;
     }
 
-    // TODO: Criar um método extra para a classe (se pa o listarExemplares ja conta,
-    // então deixa isso pro final se der tempo)
-
     // Método toString
     @Override
     public String toString() {
